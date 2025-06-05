@@ -6,10 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "seed": "tsx prisma/seed.ts"
   },
   "prisma": {
-    "seed": "ts-node --compiler-options {\\\"module\\\":\\\"CommonJS\\\"} prisma/seed.ts"
+    "seed": "npm run seed"
   },
   "dependencies": {
     "@prisma/client": "^6.9.0",
