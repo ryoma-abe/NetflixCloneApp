@@ -9,8 +9,9 @@ async function main() {
         id: "1",
         title: "Inception",
         description: "夢の中の夢の中で繰り広げられるサスペンス。",
-        thumbnail: "https://example.com/inception.jpg",
-        videoUrl: "https://example.com/inception.mp4",
+        thumbnail:
+          "https://images.unsplash.com/photo-1607746882042-944635dfe10e", // Unsplash
+        videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4", // ダミー動画
         genre: "Sci-Fi",
         duration: "148分",
       },
@@ -18,8 +19,9 @@ async function main() {
         id: "2",
         title: "The Matrix",
         description: "仮想世界に閉じ込められた人類と救世主の物語。",
-        thumbnail: "https://example.com/matrix.jpg",
-        videoUrl: "https://example.com/matrix.mp4",
+        thumbnail:
+          "https://images.unsplash.com/photo-1525182008055-f88b95ff7980",
+        videoUrl: "https://www.w3schools.com/html/movie.mp4",
         genre: "Action",
         duration: "136分",
       },
@@ -27,8 +29,9 @@ async function main() {
         id: "3",
         title: "Spirited Away",
         description: "不思議な世界で成長していく少女の冒険。",
-        thumbnail: "https://example.com/spiritedaway.jpg",
-        videoUrl: "https://example.com/spiritedaway.mp4",
+        thumbnail:
+          "https://images.unsplash.com/photo-1502134249126-9f3755a50d78",
+        videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
         genre: "Fantasy",
         duration: "125分",
       },
