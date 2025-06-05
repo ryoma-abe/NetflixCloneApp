@@ -13,3 +13,20 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  favorites Movie[]  @relation("UserFavorites")
+}
+
+model Movie {
+  id           String   @id
+  title        String
+  description  String
+  thumbnail    String
+  videoUrl     String
+  genre        String
+  duration     String
+  favoritedBy  User[]   @relation("UserFavorites")
+}
