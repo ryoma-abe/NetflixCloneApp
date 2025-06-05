@@ -1,8 +1,13 @@
 import { PrismaClient } from "@prisma/client";
+import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 
 async function main() {
+  const hashedPassword1 = await bcrypt.hash("password123", 10);
+  const hashedPassword2 = await bcrypt.hash("password456", 10);
+
+  // 映画データを先に挿入（User側のconnectのため）
   await prisma.movie.createMany({
     data: [
       {
@@ -10,8 +15,8 @@ async function main() {
         title: "Inception",
         description: "夢の中の夢の中で繰り広げられるサスペンス。",
         thumbnail:
-          "https://images.unsplash.com/photo-1607746882042-944635dfe10e", // Unsplash
-        videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4", // ダミー動画
+          "https://images.unsplash.com/photo-1607746882042-944635dfe10e",
+        videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
         genre: "Sci-Fi",
         duration: "148分",
       },
@@ -36,6 +41,29 @@ async function main() {
         duration: "125分",
       },
     ],
+  });
+
+  // ユーザー作成＋お気に入り登録
+  await prisma.user.create({
+    data: {
+      id: "user1",
+      email: "taro@example.com",
+      password: hashedPassword1,
+      favorites: {
+        connect: [{ id: "1" }, { id: "3" }],
+      },
+    },
+  });
+
+  await prisma.user.create({
+    data: {
+      id: "user2",
+      email: "hanako@example.com",
+      password: hashedPassword2,
+      favorites: {
+        connect: [{ id: "2" }],
+      },
+    },
   });
 }
 
