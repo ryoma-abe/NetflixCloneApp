@@ -8,13 +8,19 @@ type Movie = {
   id: string;
   title: string;
   poster_path: string;
+  backdrop_path: string;
 };
 
 type TMDBResponse = {
   results: Movie[];
 };
 
-export default function Row({ fetchUrl }: { fetchUrl: string }) {
+type RowProps = {
+  fetchUrl: string;
+  isLargeRow: boolean;
+};
+
+export default function Row({ fetchUrl, isLargeRow }: RowProps) {
   const [movies, setMovies] = useState<Movie[]>([]);
 
   useEffect(() => {
@@ -25,15 +31,18 @@ export default function Row({ fetchUrl }: { fetchUrl: string }) {
     fetchData();
   }, [fetchUrl]);
 
+  const imageUrl = "https://image.tmdb.org/t/p/original";
   return (
     <ul className="flex gap-4 overflow-x-auto overscroll-x-contain whitespace-nowrap [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
       {movies.map((movie) => (
-        <li key={movie.id} className="min-w-[160px] flex-shrink-0">
+        <li key={movie.id} className="min-w-[100px] flex-shrink-0">
           <Image
-            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} // ポスター画像
+            src={`${imageUrl}${
+              isLargeRow ? movie.poster_path : movie.backdrop_path
+            }`}
             alt={movie.title || "Movie Poster"}
-            width={300}
-            height={450}
+            width={200}
+            height={100}
             className="rounded object-cover transition-transform duration-300 hover:scale-105"
           />
         </li>
