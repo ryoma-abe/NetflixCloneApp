@@ -6,8 +6,12 @@ import { useEffect, useState } from "react";
 
 type Movie = {
   id: string;
-  src: string;
   title: string;
+  poster_path: string;
+};
+
+type TMDBResponse = {
+  results: Movie[];
 };
 
 export default function Row({ fetchUrl }: { fetchUrl: string }) {
@@ -15,7 +19,7 @@ export default function Row({ fetchUrl }: { fetchUrl: string }) {
 
   useEffect(() => {
     async function fetchData() {
-      const request = await axios.get(fetchUrl);
+      const request = await axios.get<TMDBResponse>(fetchUrl);
       setMovies(request.data.results);
     }
     fetchData();
