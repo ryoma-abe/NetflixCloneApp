@@ -18,9 +18,10 @@ type TMDBResponse = {
 type RowProps = {
   fetchUrl: string;
   isLargeRow: boolean;
+  title: string;
 };
 
-export default function Row({ fetchUrl, isLargeRow }: RowProps) {
+export default function Row({ fetchUrl, isLargeRow, title }: RowProps) {
   const [movies, setMovies] = useState<Movie[]>([]);
 
   useEffect(() => {
@@ -36,6 +37,7 @@ export default function Row({ fetchUrl, isLargeRow }: RowProps) {
     <ul className="flex gap-4 overflow-x-auto overscroll-x-contain whitespace-nowrap [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
       {movies.map((movie) => (
         <li key={movie.id} className="min-w-[100px] flex-shrink-0">
+          <p>{title}</p>
           <Image
             src={`${imageUrl}${
               isLargeRow ? movie.poster_path : movie.backdrop_path
