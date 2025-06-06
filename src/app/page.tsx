@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <main>
       <h1 className="text-center text-3xl">トップページ</h1>
-      <Row fetchUrl={requests.fetchActionMovies}></Row>
+      <Row fetchUrl={requests.fetchActionMovies} isLargeRow={true}></Row>
     </main>
   );
 }
