@@ -1,9 +1,11 @@
+import Banner from "@/components/Banner";
 import Row from "@/components/Row";
 import { requests } from "@/lib/request";
 
 export default function Home() {
   return (
     <main>
+      <Banner />
       <Row
         title="Netflix Originals"
         fetchUrl={requests.fetchNetflixOriginals}
