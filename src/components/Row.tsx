@@ -1,15 +1,9 @@
 "use client";
 
 import axios from "@/lib/axios";
+import { Movie } from "@/types/Movie";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-
-type Movie = {
-  id: string;
-  title: string;
-  poster_path: string;
-  backdrop_path: string;
-};
 
 type TMDBResponse = {
   results: Movie[];
