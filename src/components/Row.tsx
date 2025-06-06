@@ -34,21 +34,23 @@ export default function Row({ fetchUrl, isLargeRow, title }: RowProps) {
 
   const imageUrl = "https://image.tmdb.org/t/p/original";
   return (
-    <ul className="flex gap-4 overflow-x-auto overscroll-x-contain whitespace-nowrap [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-      {movies.map((movie) => (
-        <li key={movie.id} className="min-w-[100px] flex-shrink-0">
-          <p>{title}</p>
-          <Image
-            src={`${imageUrl}${
-              isLargeRow ? movie.poster_path : movie.backdrop_path
-            }`}
-            alt={movie.title || "Movie Poster"}
-            width={200}
-            height={100}
-            className="rounded object-cover transition-transform duration-300 hover:scale-105"
-          />
-        </li>
-      ))}
-    </ul>
+    <div>
+      <p>{title}</p>
+      <ul className="flex gap-4 overflow-x-auto overscroll-x-contain whitespace-nowrap [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+        {movies.map((movie) => (
+          <li key={movie.id} className="min-w-[100px] flex-shrink-0">
+            <Image
+              src={`${imageUrl}${
+                isLargeRow ? movie.poster_path : movie.backdrop_path
+              }`}
+              alt={movie.title || "Movie Poster"}
+              width={200}
+              height={100}
+              className="rounded object-cover transition-transform duration-300 hover:scale-105"
+            />
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
