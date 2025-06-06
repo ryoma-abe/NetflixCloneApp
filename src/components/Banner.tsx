@@ -24,15 +24,17 @@ export default function Banner() {
   const imageUrl = "https://image.tmdb.org/t/p/original";
 
   return (
-    <div>
+    <div className="relative w-full h-[500px]">
       {movie && (
         <Image
           src={`${imageUrl}${movie.backdrop_path}`}
-          alt={movie.title || "Movie Poster"}
-          width={1000}
-          height={300}
+          alt={movie.title}
+          fill
+          sizes="100vw"
+          className="object-cover object-top"
         />
       )}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black/80 to-transparent" />
     </div>
   );
 }
