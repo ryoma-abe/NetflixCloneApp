@@ -10,17 +10,16 @@ export default function Banner() {
 
   useEffect(() => {
     async function fetchData() {
-      const request = await axios.get<{ results: Movie[] }>(
+      const { data } = await axios.get<{ results: Movie[] }>(
         requests.fetchNetflixOriginals
       );
-      setMovie(
-        request.data.results[
-          Math.floor(Math.random() * request.data.results.length - 1)
-        ]
-      );
+      const picked =
+        data.results[Math.floor(Math.random() * data.results.length)];
+      setMovie(picked);
     }
     fetchData();
   }, []);
+
   const imageUrl = "https://image.tmdb.org/t/p/original";
 
   return (
@@ -29,7 +28,7 @@ export default function Banner() {
         <>
           <Image
             src={`${imageUrl}${movie.backdrop_path}`}
-            alt={movie.title || movie.name}
+            alt={movie.name}
             fill
             sizes="100vw"
             className="object-cover object-top"
@@ -41,7 +40,7 @@ export default function Banner() {
           {/* タイトル & ディスクリプション */}
           <div className="absolute bottom-16 left-6 right-6 max-w-xl">
             <h2 className="mb-2 text-3xl font-bold drop-shadow-md">
-              {movie.title || movie.name}
+              {movie.name}
             </h2>
             <p className="text-sm leading-relaxed line-clamp-3 drop-shadow-md">
               {movie.overview}

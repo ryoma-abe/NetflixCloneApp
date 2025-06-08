@@ -5,6 +5,7 @@ import { Movie } from "@/types/Movie";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
+
 type TMDBResponse = {
   results: Movie[];
 };
@@ -37,7 +38,7 @@ export default function Row({ fetchUrl, isLargeRow, title }: RowProps) {
               src={`${imageUrl}${
                 isLargeRow ? movie.poster_path : movie.backdrop_path
               }`}
-              alt={movie.title || "Movie Poster"}
+              alt={movie.name || "Movie Poster"}
               width={isLargeRow ? 160 : 240}
               height={isLargeRow ? 240 : 135}
               className="rounded object-cover transition-transform duration-300 hover:scale-105"
