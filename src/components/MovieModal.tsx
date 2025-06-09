@@ -45,7 +45,7 @@ export function MovieModal({ movie, imageUrl, onClose }: MovieModalProps) {
         </div>
 
         <p className="text-sm text-neutral-300 text-center">
-          映画の詳細などをここに記載できます。
+          {movie.overview}
         </p>
       </div>
     </div>

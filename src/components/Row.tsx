@@ -29,6 +29,7 @@ export default function Row({ fetchUrl, isLargeRow, title }: RowProps) {
     fetchData();
   }, [fetchUrl]);
 
+  // ベースイメージURL
   const imageUrl = "https://image.tmdb.org/t/p/original";
 
   // モーダルを閉じる関数
