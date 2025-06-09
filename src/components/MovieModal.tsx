@@ -43,7 +43,6 @@ export function MovieModal({ movie, imageUrl, onClose }: MovieModalProps) {
         className="bg-neutral-900 text-white rounded-lg p-6 w-full max-w-3xl relative"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Close button */}
         <button
           onClick={onClose}
           className="absolute top-2 right-2 text-white text-xl"
@@ -51,7 +50,6 @@ export function MovieModal({ movie, imageUrl, onClose }: MovieModalProps) {
           ✕
         </button>
 
-        {/* タイトル */}
         <h2 className="text-2xl font-bold mb-4 text-center">{movie.name}</h2>
 
         {/* 画像と概要：trailerUrl がないときだけ表示 */}
@@ -72,8 +70,6 @@ export function MovieModal({ movie, imageUrl, onClose }: MovieModalProps) {
             </p>
           </>
         )}
-
-        {/* ボタンは常時表示でもOK（もしくは再生中は非表示にしても可） */}
         <div className="flex justify-center gap-6 mb-4">
           <button
             onClick={handleClick}
@@ -86,7 +82,7 @@ export function MovieModal({ movie, imageUrl, onClose }: MovieModalProps) {
           </button>
         </div>
 
-        {/* YouTube動画表示（トレーラー再生中） */}
+        {/* YouTube動画表示*/}
         {trailerUrl && (
           <div className="aspect-video w-full overflow-hidden rounded shadow-lg">
             <YouTube
