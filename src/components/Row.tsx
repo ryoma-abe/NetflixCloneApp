@@ -2,11 +2,10 @@
 
 import axios from "@/lib/axios";
 import { Movie } from "@/types/Movie";
-import Image from "next/image";
+
 import { useEffect, useState } from "react";
-import { FaRegCirclePlay } from "react-icons/fa6";
-import { AiOutlineLike } from "react-icons/ai";
 import MovieCard from "./MovieCard";
+import { MovieModal } from "./MovieModal";
 
 type TMDBResponse = {
   results: Movie[];
@@ -32,6 +31,10 @@ export default function Row({ fetchUrl, isLargeRow, title }: RowProps) {
 
   const imageUrl = "https://image.tmdb.org/t/p/original";
 
+  // モーダルを閉じる関数
+  const onClose = () => {
+    setSelectedMovie(null);
+  };
   return (
     <div className="mb-8 px-4">
       <p className="text-xl font-semibold mb-2">{title}</p>
@@ -52,45 +55,11 @@ export default function Row({ fetchUrl, isLargeRow, title }: RowProps) {
       </ul>
 
       {selectedMovie && (
-        <div
-          className="fixed inset-0 bg-black/70 flex items-center justify-center z-50"
-          onClick={() => setSelectedMovie(null)}
-        >
-          <div
-            className="bg-neutral-900 text-white rounded-lg p-6 w-[90%] max-w-xl relative"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              onClick={() => setSelectedMovie(null)}
-              className="absolute top-2 right-2 text-white text-xl"
-            >
-              ✕
-            </button>
-
-            <h2 className="text-xl font-bold mb-4">{selectedMovie.name}</h2>
-
-            <Image
-              src={`${imageUrl}${selectedMovie.backdrop_path}`}
-              alt={selectedMovie.name}
-              width={800}
-              height={450}
-              className="rounded mb-4"
-            />
-
-            <div className="flex justify-center gap-4 mb-4">
-              <button className="bg-white text-black rounded-full p-2 hover:scale-105 transition">
-                <FaRegCirclePlay size={22} />
-              </button>
-              <button className="bg-white text-black rounded-full p-2 hover:scale-105 transition">
-                <AiOutlineLike size={22} />
-              </button>
-            </div>
-
-            <p className="text-sm text-neutral-300 text-center">
-              映画の詳細などをここに記載できます。
-            </p>
-          </div>
-        </div>
+        <MovieModal
+          onClose={onClose}
+          movie={selectedMovie}
+          imageUrl={imageUrl}
+        />
       )}
     </div>
   );
