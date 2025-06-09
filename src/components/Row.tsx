@@ -37,13 +37,17 @@ export default function Row({ fetchUrl, isLargeRow, title }: RowProps) {
       <p className="text-xl font-semibold mb-2">{title}</p>
       <ul className="flex gap-4 overflow-x-auto overscroll-x-contain whitespace-nowrap [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
         {movies.map((movie) => (
-          <MovieCard
+          <li
             key={movie.id}
-            movie={movie}
-            isLargeRow={isLargeRow}
-            imageUrl={imageUrl}
-            onClick={(movie) => setSelectedMovie(movie)}
-          />
+            className="relative min-w-[160px] flex-shrink-0 cursor-pointer"
+            onClick={() => setSelectedMovie(movie)}
+          >
+            <MovieCard
+              movie={movie}
+              isLargeRow={isLargeRow}
+              imageUrl={imageUrl}
+            />
+          </li>
         ))}
       </ul>
 
