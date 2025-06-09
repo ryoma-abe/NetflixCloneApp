@@ -5,7 +5,6 @@ import { Movie } from "@/types/Movie";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-
 type TMDBResponse = {
   results: Movie[];
 };
@@ -43,6 +42,7 @@ export default function Row({ fetchUrl, isLargeRow, title }: RowProps) {
               height={isLargeRow ? 240 : 135}
               className="rounded object-cover transition-transform duration-300 hover:scale-105"
             />
+            <p>{movie.name}</p>
           </li>
         ))}
       </ul>
