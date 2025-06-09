@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { FaRegCirclePlay } from "react-icons/fa6";
 import { AiOutlineLike } from "react-icons/ai";
+import MovieCard from "./MovieCard";
 
 type TMDBResponse = {
   results: Movie[];
@@ -36,21 +37,13 @@ export default function Row({ fetchUrl, isLargeRow, title }: RowProps) {
       <p className="text-xl font-semibold mb-2">{title}</p>
       <ul className="flex gap-4 overflow-x-auto overscroll-x-contain whitespace-nowrap [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
         {movies.map((movie) => (
-          <li
+          <MovieCard
             key={movie.id}
-            className="relative min-w-[160px] flex-shrink-0 cursor-pointer"
-            onClick={() => setSelectedMovie(movie)}
-          >
-            <Image
-              src={`${imageUrl}${
-                isLargeRow ? movie.poster_path : movie.backdrop_path
-              }`}
-              alt={movie.name || "Movie Poster"}
-              width={isLargeRow ? 160 : 240}
-              height={isLargeRow ? 240 : 135}
-              className="rounded object-cover"
-            />
-          </li>
+            movie={movie}
+            isLargeRow={isLargeRow}
+            imageUrl={imageUrl}
+            onClick={(movie) => setSelectedMovie(movie)}
+          />
         ))}
       </ul>
 
