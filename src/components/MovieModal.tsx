@@ -16,8 +16,14 @@ type MovieModalProps = {
 
 export function MovieModal({ movie, imageUrl, onClose }: MovieModalProps) {
   const [trailerUrl, setTrailerUrl] = useState<string | null>("");
-
-  const handleClick = async () => {
+  // youtubeトレイラーのオプション設定
+  const opts = {
+    width: "100%",
+    height: "390",
+    playerVars: { autoplay: 1 },
+  };
+  // 再生ボタンを押したときの関数
+  const handlePlay = async () => {
     if (trailerUrl) {
       setTrailerUrl("");
     } else {
@@ -27,12 +33,7 @@ export function MovieModal({ movie, imageUrl, onClose }: MovieModalProps) {
       );
     }
   };
-
-  const opts = {
-    width: "100%",
-    height: "390",
-    playerVars: { autoplay: 1 },
-  };
+  // お気に入りボタンを押したときの関数
 
   return (
     <div
@@ -72,7 +73,7 @@ export function MovieModal({ movie, imageUrl, onClose }: MovieModalProps) {
         )}
         <div className="flex justify-center gap-6 mb-4">
           <button
-            onClick={handleClick}
+            onClick={handlePlay}
             className="bg-white text-black rounded-full p-3 hover:scale-105 transition"
           >
             <FaRegCirclePlay size={22} />
