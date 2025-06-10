@@ -47,6 +47,8 @@ export function MovieModal({ movie, imageUrl, onClose }: MovieModalProps) {
     const data = await res.json();
     if (data.status === "OK") {
       setIsFavorited(true);
+    } else {
+      setIsFavorited(false);
     }
   };
 
