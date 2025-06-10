@@ -47,6 +47,12 @@ export default function Header() {
               <span>マイページ</span>
             </div>
           </Link>
+          <Link href="/favorites">
+            <div className="flex items-center gap-2 cursor-pointer hover:opacity-80">
+              <span>♥</span>
+              <span>お気に入り</span>
+            </div>
+          </Link>
           <div className="border-t border-neutral-700 pt-3">
             <div className="cursor-pointer hover:opacity-80">ログアウト</div>
           </div>
