@@ -17,6 +17,8 @@ type MovieModalProps = {
 
 export function MovieModal({ movie, imageUrl, onClose }: MovieModalProps) {
   const [trailerUrl, setTrailerUrl] = useState<string | null>("");
+  const [isFavorited, setIsFavorited] = useState(false);
+
   // youtubeトレイラーのオプション設定
   const opts = {
     width: "100%",
@@ -44,9 +46,8 @@ export function MovieModal({ movie, imageUrl, onClose }: MovieModalProps) {
 
     const data = await res.json();
     if (data.status === "OK") {
-      console.log("サーバーから受け取ったID:", data.receivedId);
+      setIsFavorited(true);
     }
-    
   };
 
   return (
@@ -96,9 +97,11 @@ export function MovieModal({ movie, imageUrl, onClose }: MovieModalProps) {
             onClick={() => handleFavorite(movie.id)}
             className="bg-white text-black rounded-full p-3 hover:scale-105 transition"
           >
-            {}
-            <AiFillLike size={22} color="red" />
-            <AiOutlineLike size={22} />
+            {isFavorited ? (
+              <AiFillLike size={22} />
+            ) : (
+              <AiOutlineLike size={22} />
+            )}
           </button>
         </div>
 
