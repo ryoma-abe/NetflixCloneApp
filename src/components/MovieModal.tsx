@@ -51,6 +51,7 @@ export function MovieModal({ movie, imageUrl, onClose }: MovieModalProps) {
       setIsFavorited(false);
     }
   };
+  // モーダルを開いたときにお気に入り済かどうかの確認
 
   return (
     <div
