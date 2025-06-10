@@ -41,20 +41,8 @@ export default function Header() {
       {showDropdown && (
         <div className="absolute right-5 top-16 w-60 bg-black text-white rounded-md shadow-lg p-4 text-sm space-y-3">
           <div className="flex items-center gap-2 cursor-pointer hover:opacity-80">
-            <span>✏️</span>
-            <span>プロフィールの管理</span>
-          </div>
-          <div className="flex items-center gap-2 cursor-pointer hover:opacity-80">
-            <span>🔄</span>
-            <span>プロフィールの移行</span>
-          </div>
-          <div className="flex items-center gap-2 cursor-pointer hover:opacity-80">
             <span>👤</span>
-            <span>アカウント</span>
-          </div>
-          <div className="flex items-center gap-2 cursor-pointer hover:opacity-80">
-            <span>❓</span>
-            <span>ヘルプセンター</span>
+            <span>マイページ</span>
           </div>
           <div className="border-t border-neutral-700 pt-3">
             <div className="cursor-pointer hover:opacity-80">ログアウト</div>
