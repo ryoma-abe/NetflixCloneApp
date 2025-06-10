@@ -34,7 +34,13 @@ export function MovieModal({ movie, imageUrl, onClose }: MovieModalProps) {
     }
   };
   // お気に入りボタンを押したときの関数
-
+  const handleFavorite = async (movieId: string) => {
+    await fetch("/api/favorite", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ movieId }),
+    });
+  };
   return (
     <div
       className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 px-4"
@@ -78,7 +84,10 @@ export function MovieModal({ movie, imageUrl, onClose }: MovieModalProps) {
           >
             <FaRegCirclePlay size={22} />
           </button>
-          <button className="bg-white text-black rounded-full p-3 hover:scale-105 transition">
+          <button
+            onClick={() => handleFavorite(movie.id)}
+            className="bg-white text-black rounded-full p-3 hover:scale-105 transition"
+          >
             <AiOutlineLike size={22} />
           </button>
         </div>
