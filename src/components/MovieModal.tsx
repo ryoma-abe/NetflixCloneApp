@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { FaRegCirclePlay } from "react-icons/fa6";
 import { AiOutlineLike } from "react-icons/ai";
+import { AiFillLike } from "react-icons/ai";
 import { Movie } from "@/types/Movie";
 import { useState } from "react";
 import { requests } from "@/lib/request";
@@ -45,6 +46,7 @@ export function MovieModal({ movie, imageUrl, onClose }: MovieModalProps) {
     if (data.status === "OK") {
       console.log("サーバーから受け取ったID:", data.receivedId);
     }
+    
   };
 
   return (
@@ -94,6 +96,8 @@ export function MovieModal({ movie, imageUrl, onClose }: MovieModalProps) {
             onClick={() => handleFavorite(movie.id)}
             className="bg-white text-black rounded-full p-3 hover:scale-105 transition"
           >
+            {}
+            <AiFillLike size={22} color="red" />
             <AiOutlineLike size={22} />
           </button>
         </div>
