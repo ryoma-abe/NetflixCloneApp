@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function Header() {
@@ -40,10 +41,12 @@ export default function Header() {
       />
       {showDropdown && (
         <div className="absolute right-5 top-16 w-60 bg-black text-white rounded-md shadow-lg p-4 text-sm space-y-3">
-          <div className="flex items-center gap-2 cursor-pointer hover:opacity-80">
-            <span>👤</span>
-            <span>マイページ</span>
-          </div>
+          <Link href="/my-page">
+            <div className="flex items-center gap-2 cursor-pointer hover:opacity-80">
+              <span>👤</span>
+              <span>マイページ</span>
+            </div>
+          </Link>
           <div className="border-t border-neutral-700 pt-3">
             <div className="cursor-pointer hover:opacity-80">ログアウト</div>
           </div>
