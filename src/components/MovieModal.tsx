@@ -35,12 +35,18 @@ export function MovieModal({ movie, imageUrl, onClose }: MovieModalProps) {
   };
   // お気に入りボタンを押したときの関数
   const handleFavorite = async (movieId: string) => {
-    await fetch("/api/favorite", {
+    const res = await fetch("/api/favorite", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ movieId }),
     });
+
+    const data = await res.json();
+    if (data.status === "OK") {
+      console.log("サーバーから受け取ったID:", data.receivedId);
+    }
   };
+
   return (
     <div
       className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 px-4"
