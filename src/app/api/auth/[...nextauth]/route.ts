@@ -9,16 +9,18 @@ const handler = NextAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
   ],
+  // ログイン成功直後に呼ばれる関数。
   callbacks: {
+    // user: Googleログイン成功後にNextAuthが取得したユーザー情報（email, name, image など）
     async signIn({ user }) {
-      // ユーザーをDBに保存（存在しない場合のみ）
+      // PrismaによるDBユーザー登録
       const { PrismaClient } = await import("@prisma/client");
       const prisma = new PrismaClient();
-
+      // 既存ユーザーの確認
       const existingUser = await prisma.user.findUnique({
         where: { email: user.email! },
       });
-
+      //  新規ユーザー登録（存在しないときのみ）
       if (!existingUser) {
         await prisma.user.create({
           data: {
@@ -28,7 +30,7 @@ const handler = NextAuth({
           },
         });
       }
-
+      // DB切断とログイン成功返却
       await prisma.$disconnect();
       return true;
     },
