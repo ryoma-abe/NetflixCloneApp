@@ -2,6 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import LoginButton from "./LoginButton";
 
 export default function Header() {
   const [show, setShow] = useState(false);
@@ -56,7 +57,7 @@ export default function Header() {
             </div>
           </Link>
           <div className="border-t border-neutral-700 pt-3">
-            <div className="cursor-pointer hover:opacity-80">ログアウト</div>
+            <LoginButton />
           </div>
         </div>
       )}

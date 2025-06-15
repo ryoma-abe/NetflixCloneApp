@@ -1,9 +1,15 @@
-import { useSession } from "next-auth/react";
+"use client";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 export default function LoginButton() {
   const { data: session } = useSession();
   if (session) {
-    return 
+    return (
+      <div>
+        <p>ログイン中: {session.user?.email}</p>
+        <button onClick={() => signOut()}>ログアウト</button>
+      </div>
+    );
   }
-  return <div>LoginButton</div>;
+  return <button onClick={() => signIn("google")}>Googleでログイン</button>;
 }
