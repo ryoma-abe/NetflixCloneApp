@@ -20,47 +20,38 @@ export default function Header() {
 
   return (
     <div
-      className={`fixed top-0 w-full h-16 p-5 z-10 flex justify-between transition-all ease-in duration-500 ${
+      className={`fixed inset-x-0 top-0 z-10 h-16 px-5 flex items-center justify-between transition-colors duration-500 ${
         show ? "bg-black" : ""
       }`}
     >
+      {/* ロゴ */}
       <Link href="/">
         <Image
-          className="object-contain"
           src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/1920px-Netflix_2015_logo.svg.png"
           alt="Netflix Logo"
           width={80}
           height={30}
+          className="object-contain"
         />
       </Link>
 
-      <Image
-        className="fixed right-5 w-8 object-contain"
-        src="https://i.pinimg.com/originals/0d/dc/ca/0ddccae723d85a703b798a5e682c23c1.png"
-        alt="Avatar"
-        width={32}
-        height={32}
-        onClick={() => setShowDropdown((prev) => !prev)}
-      />
-      {showDropdown && (
-        <div className="absolute right-5 top-16 w-60 bg-black text-white rounded-md shadow-lg p-4 text-sm space-y-3">
-          <Link href="/my-page">
-            <div className="flex items-center gap-2 cursor-pointer hover:opacity-80">
-              <span>👤</span>
-              <span>マイページ</span>
-            </div>
-          </Link>
-          <Link href="/favorites">
-            <div className="flex items-center gap-2 cursor-pointer hover:opacity-80">
-              <span>♥</span>
-              <span>お気に入り</span>
-            </div>
-          </Link>
-          <div className="border-t border-neutral-700 pt-3">
+      {/* 右側アイコン & ドロップダウン */}
+      <div className="relative">
+        <Image
+          src="https://i.pinimg.com/originals/0d/dc/ca/0ddccae723d85a703b798a5e682c23c1.png"
+          alt="Avatar"
+          width={32}
+          height={32}
+          className="w-8 h-8 cursor-pointer object-cover"
+          onClick={() => setShowDropdown((prev) => !prev)}
+        />
+
+        {showDropdown && (
+          <div className="absolute right-0 mt-3 w-60 rounded-md bg-black text-white shadow-lg p-4 text-sm space-y-3">
             <LoginButton />
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }
