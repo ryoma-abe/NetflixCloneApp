@@ -17,24 +17,35 @@ export async function POST(req: NextRequest) {
   const { movieId } = await req.json();
 
   // ログインしている人がDBに登録されているか確認（ユニークなメールアドレスで）
-try{
-  const user = await prisma.user.findUnique({
-    where:{email:session.user.email}
-  })
-  if(!user){
-    return NextResponse.json({error:"ユーザーが見つかりません"},{status:404})
+  try {
+    // ログイン中のユーザーのメールアドレスを使って
+    // データベースから「その人の情報（＝user）」を取り出して
+    // user という変数にその中身を入れてる
+    const user = await prisma.user.findUnique({
+      where: { email: session.user.email },
+    });
+    if (!user) {
+      return NextResponse.json(
+        { error: "ユーザーが見つかりません" },
+        { status: 404 }
+      );
+    }
+    // ユーザーの「お気に入り」に、その映画を追加する処理
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        favorites: {
+          connect: { id: movieId },
+        },
+      },
+    });
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error("お気に入り追加エラー:", error);
+    return NextResponse.json(
+      { error: "エラーが発生しました" },
+      { status: 500 }
+    );
   }
-}
-
-
-
-
-
-
-
-
-
-
-
-
 }
