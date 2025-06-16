@@ -15,7 +15,7 @@ export default function LoginButton() {
 
         <div className="flex flex-wrap items-center gap-3">
           <button
-            onClick={() => signOut()}
+            onClick={() => signOut({ callbackUrl: "/?flash=logout" })}
             className="rounded bg-neutral-800 px-4 py-1 hover:bg-neutral-700"
           >
             ログアウト
@@ -35,7 +35,7 @@ export default function LoginButton() {
 
   return (
     <button
-      onClick={() => signIn("google")}
+      onClick={() => signIn("google", { callbackUrl: "/?flash=login" })}
       className="rounded bg-red-600 px-4 py-1 text-white hover:bg-red-500"
     >
       Googleでログイン
