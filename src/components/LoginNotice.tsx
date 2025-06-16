@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 import { useEffect, useRef } from "react";
 import { toast } from "react-hot-toast";
 
-export function Toaster() {
+export function LoginNotice() {
   const { status } = useSession(); // authenticated | unauthenticated | loading
   const shown = useRef(false); // 同じセッションで1回だけ出す
 
