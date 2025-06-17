@@ -1,13 +1,10 @@
-
 import Banner from "@/components/Banner";
-import Header from "@/components/Header";
 import Row from "@/components/Row";
 import { requests } from "@/lib/request";
 
 export default function Home() {
   return (
     <main>
-      <Header />
       <Banner />
       <Row
         title="Netflix Originals"
