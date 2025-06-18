@@ -12,6 +12,8 @@ import YouTube from "react-youtube";
 type MovieModalProps = {
   movie: Movie;
   imageUrl: string;
+  favorites: Movie[];
+  loading: boolean;
   onClose: () => void;
 };
 
