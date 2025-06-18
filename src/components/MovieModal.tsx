@@ -4,10 +4,11 @@ import { FaRegCirclePlay } from "react-icons/fa6";
 import { AiOutlineLike } from "react-icons/ai";
 import { AiFillLike } from "react-icons/ai";
 import { Movie } from "@/types/Movie";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { requests } from "@/lib/request";
 import axios from "@/lib/axios";
 import YouTube from "react-youtube";
+import { useFavorites } from "@/hooks/useFavorites";
 
 type MovieModalProps = {
   movie: Movie;
@@ -17,6 +18,7 @@ type MovieModalProps = {
 
 export function MovieModal({ movie, imageUrl, onClose }: MovieModalProps) {
   const [trailerUrl, setTrailerUrl] = useState<string | null>("");
+  const { favorites, loading } = useFavorites();
   const [isFavorited, setIsFavorited] = useState(false);
 
   // youtubeトレイラーのオプション設定
@@ -44,14 +46,21 @@ export function MovieModal({ movie, imageUrl, onClose }: MovieModalProps) {
       body: JSON.stringify({ movieId }),
     });
 
-    const data = await res.json();
-    if (data.status === "OK") {
+    if (res.ok) {
       setIsFavorited(true);
     } else {
-      setIsFavorited(false);
+      console.error("お気に入り登録に失敗しました");
     }
   };
   // モーダルを開いたときにお気に入り済かどうかの確認
+  useEffect(() => {
+    if (!loading) {
+      const alreadyFavorited = favorites.some(
+        (fav) => String(fav.id) === String(movie.id) // ★ 型をそろえて比較
+      );
+      setIsFavorited(alreadyFavorited);
+    }
+  }, [loading, favorites, movie.id]);
 
   return (
     <div
@@ -98,7 +107,9 @@ export function MovieModal({ movie, imageUrl, onClose }: MovieModalProps) {
           </button>
           <button
             onClick={() => handleFavorite(movie.id)}
-            className="bg-white text-black rounded-full p-3 hover:scale-105 transition"
+            className={`rounded-full p-3 hover:scale-105 transition ${
+              isFavorited ? "bg-red-500 text-white" : "bg-white text-black"
+            }`}
           >
             {isFavorited ? (
               <AiFillLike size={22} />
