@@ -6,6 +6,7 @@ import { Movie } from "@/types/Movie";
 import { useEffect, useState } from "react";
 import MovieCard from "./MovieCard";
 import { MovieModal } from "./MovieModal";
+import { useFavorites } from "@/hooks/useFavorites";
 
 type TMDBResponse = {
   results: Movie[];
@@ -20,6 +21,8 @@ type RowProps = {
 export default function Row({ fetchUrl, isLargeRow, title }: RowProps) {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
+
+  const { favorites, loading } = useFavorites();
 
   useEffect(() => {
     async function fetchData() {
@@ -60,6 +63,8 @@ export default function Row({ fetchUrl, isLargeRow, title }: RowProps) {
           onClose={onClose}
           movie={selectedMovie}
           imageUrl={imageUrl}
+          favorites={favorites}
+          loading={loading}
         />
       )}
     </div>
