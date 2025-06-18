@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 
 export default function FavoritesPage() {
   const [favorites, setFavorites] = useState<Movie[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchFavorites = async () => {
@@ -12,9 +13,14 @@ export default function FavoritesPage() {
       if (!res.ok) return;
       const data = await res.json();
       setFavorites(data);
+      setLoading(false);
     };
     fetchFavorites();
   }, []);
+
+  if (loading) {
+    return <p className="p-6 text-center text-gray-500">読み込み中...</p>;
+  }
 
   if (!favorites.length) {
     return (
@@ -34,7 +40,6 @@ export default function FavoritesPage() {
             key={movie.id}
             className="bg-neutral-800 text-white rounded-2xl overflow-hidden shadow hover:shadow-lg transition-shadow"
           >
-            {/* サムネイル */}
             <div className="relative w-full h-48">
               <Image
                 src={
@@ -50,8 +55,6 @@ export default function FavoritesPage() {
                        33vw"
               />
             </div>
-
-            {/* テキスト部 */}
             <div className="p-4">
               <h3 className="text-lg font-bold truncate">{movie.title}</h3>
               <p className="text-sm text-gray-400 mt-1">
