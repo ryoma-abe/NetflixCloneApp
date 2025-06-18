@@ -1,8 +1,20 @@
-import { fetchFavorites } from "@/lib/favorite";
+"use client";
+import { Movie } from "@/types/Movie";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
-export default async function FavoritesPage() {
-  const favorites = await fetchFavorites();
+export default function FavoritesPage() {
+  const [favorites, setFavorites] = useState<Movie[]>([]);
+
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      const res = await fetch("/api/favorite");
+      if (!res.ok) return;
+      const data = await res.json();
+      setFavorites(data);
+    };
+    fetchFavorites();
+  }, []);
 
   if (!favorites.length) {
     return (
