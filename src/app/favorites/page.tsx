@@ -1,23 +1,9 @@
 "use client";
-import { Movie } from "@/types/Movie";
+import { useFavorites } from "@/hooks/useFavorites";
 import Image from "next/image";
-import { useEffect, useState } from "react";
 
 export default function FavoritesPage() {
-  const [favorites, setFavorites] = useState<Movie[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchFavorites = async () => {
-      const res = await fetch("/api/favorite");
-      if (!res.ok) return;
-      const data = await res.json();
-      setFavorites(data);
-      setLoading(false);
-    };
-    fetchFavorites();
-  }, []);
-
+  const { favorites, loading } = useFavorites();
   if (loading) {
     return <p className="p-6 text-center text-gray-500">読み込み中...</p>;
   }

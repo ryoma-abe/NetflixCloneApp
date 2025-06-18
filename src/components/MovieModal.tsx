@@ -44,14 +44,12 @@ export function MovieModal({ movie, imageUrl, onClose }: MovieModalProps) {
       body: JSON.stringify({ movieId }),
     });
 
-    const data = await res.json();
-    if (data.status === "OK") {
+    if (res.ok) {
       setIsFavorited(true);
     } else {
-      setIsFavorited(false);
+      console.error("お気に入り登録に失敗しました");
     }
   };
-  // モーダルを開いたときにお気に入り済かどうかの確認
 
   return (
     <div
@@ -98,7 +96,9 @@ export function MovieModal({ movie, imageUrl, onClose }: MovieModalProps) {
           </button>
           <button
             onClick={() => handleFavorite(movie.id)}
-            className="bg-white text-black rounded-full p-3 hover:scale-105 transition"
+            className={`rounded-full p-3 hover:scale-105 transition ${
+              isFavorited ? "bg-red-500 text-white" : "bg-white text-black"
+            }`}
           >
             {isFavorited ? (
               <AiFillLike size={22} />
