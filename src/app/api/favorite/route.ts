@@ -6,7 +6,22 @@ import { PrismaClient } from "@prisma/client";
 // Prismaクライアントを初期化（App Routerならlib化推奨）
 const prisma = new PrismaClient();
 
-// POSTリクエスト処理
+// ログイン中のお気に入り一覧を取得
+export async function GET() {
+  const session = await getServerSession();
+  if (!session?.user?.email) {
+    return NextResponse.json([], { status: 401 });
+  }
+
+  const user = await prisma.user.findUnique({
+    where: { email: session.user.email },
+    include: { favorites: true },
+  });
+
+  return NextResponse.json(user?.favorites ?? []);
+}
+
+// お気に入りに追加
 export async function POST(req: NextRequest) {
   const session = await getServerSession();
 
