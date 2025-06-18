@@ -1,22 +1,51 @@
-// app/favorites/page.tsx
-
-import { fetchFavoriteIds } from "@/lib/favorite";
+import { fetchFavorites } from "@/lib/favorite";
+import Image from "next/image";
 
 export default async function FavoritesPage() {
-  const favoriteIds = await fetchFavoriteIds();
+  const favorites = await fetchFavorites();
+
+  if (!favorites.length) {
+    return (
+      <p className="p-6 text-center text-gray-500">
+        まだお気に入りがありません。
+      </p>
+    );
+  }
 
   return (
-    <div className="max-w-2xl mx-auto py-10 px-4">
-      <h1 className="text-2xl font-bold mb-6 text-center">
-        お気に入りの映画ID一覧
-      </h1>
-      <ul className="space-y-4">
-        {favoriteIds.map((id) => (
+    <div className="max-w-4xl mx-auto py-10 px-4">
+      <h1 className="text-2xl font-bold mb-6 text-center">お気に入り作品</h1>
+
+      <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        {favorites.map((movie) => (
           <li
-            key={id}
-            className="bg-neutral-800 text-white p-4 rounded shadow flex items-center justify-between"
+            key={movie.id}
+            className="bg-neutral-800 text-white rounded-2xl overflow-hidden shadow hover:shadow-lg transition-shadow"
           >
-            <span className="font-mono">{id}</span>
+            {/* サムネイル */}
+            <div className="relative w-full h-48">
+              <Image
+                src={
+                  movie.thumbnail?.startsWith("http")
+                    ? movie.thumbnail
+                    : "/no-image.jpg"
+                }
+                alt={movie.title}
+                fill
+                className="object-cover"
+                sizes="(max-width:768px) 100vw,
+                       (max-width:1200px) 50vw,
+                       33vw"
+              />
+            </div>
+
+            {/* テキスト部 */}
+            <div className="p-4">
+              <h3 className="text-lg font-bold truncate">{movie.title}</h3>
+              <p className="text-sm text-gray-400 mt-1">
+                {movie.genre}・{movie.duration}
+              </p>
+            </div>
           </li>
         ))}
       </ul>
