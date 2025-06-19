@@ -4,6 +4,7 @@ import Image from "next/image";
 
 export default function FavoritesPage() {
   const { favorites, loading } = useFavorites();
+
   if (loading) {
     return <p className="p-6 text-center text-gray-500">読み込み中...</p>;
   }
@@ -24,7 +25,7 @@ export default function FavoritesPage() {
         {favorites.map((movie) => (
           <li
             key={movie.id}
-            className="bg-neutral-800 text-white rounded-2xl overflow-hidden shadow hover:shadow-lg transition-shadow"
+            className="bg-neutral-800 text-white rounded-2xl overflow-hidden shadow hover:shadow-lg transition-shadow flex flex-col"
           >
             <div className="relative w-full h-48">
               <Image
@@ -41,11 +42,17 @@ export default function FavoritesPage() {
                        33vw"
               />
             </div>
-            <div className="p-4">
+            <div className="p-4 flex flex-col flex-1">
               <h3 className="text-lg font-bold truncate">{movie.title}</h3>
               <p className="text-sm text-gray-400 mt-1">
                 {movie.genre}・{movie.duration}
               </p>
+              <button
+                onClick={() => {}}
+                className="mt-4 w-full bg-red-600 text-white text-sm py-2 px-4 rounded-lg hover:bg-red-700 transition-colors"
+              >
+                お気に入りから削除
+              </button>
             </div>
           </li>
         ))}
