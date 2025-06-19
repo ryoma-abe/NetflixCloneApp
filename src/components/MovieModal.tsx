@@ -113,7 +113,7 @@ export function MovieModal({
           </button>
           <button
             onClick={() => handleFavorite(movie.id)}
-            className={`rounded-full p-3 hover:scale-105 transition ${
+            className={`rounded-full p-3 hover:scale-105 ${
               isFavorited ? "bg-red-500 text-white" : "bg-white text-black"
             }`}
           >
