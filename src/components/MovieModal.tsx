@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { requests } from "@/lib/request";
 import axios from "@/lib/axios";
 import YouTube from "react-youtube";
+import { handleFavorite, handleRemoveFavorite } from "@/lib/favorite";
 
 type MovieModalProps = {
   movie: Movie;
@@ -44,35 +45,24 @@ export function MovieModal({
       );
     }
   };
-  // お気に入り追加ボタンを押したときの関数
-  const handleFavorite = async (movieId: string) => {
-    const res = await fetch("/api/favorite", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ movieId }),
-    });
 
-    if (res.ok) {
+  const onClickFavorite = async () => {
+    const success = await handleFavorite(movie.id);
+    if (success) {
       setIsFavorited(true);
     } else {
       console.error("お気に入り登録に失敗しました");
     }
   };
-  // お気に入り削除ボタンを押したときの関数
-  const handleRemoveFavorite = async (movieId: string) => {
-    const res = await fetch("/api/favorite", {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ movieId }),
-    });
 
-    if (res.ok) {
+  const onClickRemoveFavorite = async () => {
+    const success = await handleRemoveFavorite(movie.id);
+    if (success) {
       setIsFavorited(false);
     } else {
-      console.error("お気に入り登録に失敗しました");
+      console.error("お気に入り解除に失敗しました");
     }
   };
-
   // モーダルを開いたときにお気に入り済みかをチェック
   useEffect(() => {
     if (!loading) {
@@ -128,14 +118,14 @@ export function MovieModal({
           </button>
           {isFavorited ? (
             <button
-              onClick={() => handleRemoveFavorite(movie.id)}
+              onClick={onClickRemoveFavorite}
               className="rounded-full p-3 hover:scale-105"
             >
               <AiFillLike size={22} />
             </button>
           ) : (
             <button
-              onClick={() => handleFavorite(movie.id)}
+              onClick={onClickFavorite}
               className="rounded-full p-3 hover:scale-105"
             >
               <AiOutlineLike size={22} />
