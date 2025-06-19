@@ -3,7 +3,7 @@ import { useFavorites } from "@/hooks/useFavorites";
 import Image from "next/image";
 
 export default function FavoritesPage() {
-  const { favorites, loading } = useFavorites();
+  const { favorites, loading, removeFavorite } = useFavorites();
 
   if (loading) {
     return <p className="p-6 text-center text-gray-500">読み込み中...</p>;
@@ -48,7 +48,7 @@ export default function FavoritesPage() {
                 {movie.genre}・{movie.duration}
               </p>
               <button
-                onClick={() => {}}
+                onClick={() => removeFavorite(movie.id)}
                 className="mt-4 w-full bg-red-600 text-white text-sm py-2 px-4 rounded-lg hover:bg-red-700 transition-colors"
               >
                 お気に入りから削除
