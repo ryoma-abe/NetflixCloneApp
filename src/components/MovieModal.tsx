@@ -1,40 +1,26 @@
 "use client";
 import Image from "next/image";
 import { FaRegCirclePlay } from "react-icons/fa6";
-import { AiOutlineLike } from "react-icons/ai";
-import { AiFillLike } from "react-icons/ai";
+import { AiOutlineLike, AiFillLike } from "react-icons/ai";
 import { Movie } from "@/types/Movie";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { requests } from "@/lib/request";
 import axios from "@/lib/axios";
 import YouTube from "react-youtube";
-import { handleFavorite, handleRemoveFavorite } from "@/lib/favorite";
+import { useFavorites } from "@/hooks/useFavorites";
 
 type MovieModalProps = {
   movie: Movie;
   imageUrl: string;
-  favorites: Movie[];
-  loading: boolean;
   onClose: () => void;
 };
 
-export function MovieModal({
-  movie,
-  imageUrl,
-  onClose,
-  loading,
-  favorites,
-}: MovieModalProps) {
+export function MovieModal({ movie, imageUrl, onClose }: MovieModalProps) {
   const [trailerUrl, setTrailerUrl] = useState<string | null>("");
-  const [isFavorited, setIsFavorited] = useState(false);
+  const { favorites, addFavorite, removeFavorite } = useFavorites();
 
-  // youtubeトレイラーのオプション設定
-  const opts = {
-    width: "100%",
-    height: "390",
-    playerVars: { autoplay: 1 },
-  };
-  // 再生ボタンを押したときの関数
+  const isFavorited = favorites.some((fav) => fav.id === movie.id);
+
   const handlePlay = async () => {
     if (trailerUrl) {
       setTrailerUrl("");
@@ -45,33 +31,6 @@ export function MovieModal({
       );
     }
   };
-
-  const onClickFavorite = async () => {
-    const success = await handleFavorite(movie.id);
-    if (success) {
-      setIsFavorited(true);
-    } else {
-      console.error("お気に入り登録に失敗しました");
-    }
-  };
-
-  const onClickRemoveFavorite = async () => {
-    const success = await handleRemoveFavorite(movie.id);
-    if (success) {
-      setIsFavorited(false);
-    } else {
-      console.error("お気に入り解除に失敗しました");
-    }
-  };
-  // モーダルを開いたときにお気に入り済みかをチェック
-  useEffect(() => {
-    if (!loading) {
-      const alreadyFavorited = favorites.some(
-        (fav) => String(fav.id) === String(movie.id) // ★ 型をそろえて比較
-      );
-      setIsFavorited(alreadyFavorited);
-    }
-  }, [loading, favorites, movie.id]);
 
   return (
     <div
@@ -91,24 +50,27 @@ export function MovieModal({
 
         <h2 className="text-2xl font-bold mb-4 text-center">{movie.name}</h2>
 
-        {/* 画像と概要：trailerUrl がないときだけ表示 */}
         {!trailerUrl && (
           <>
             <div className="w-full rounded overflow-hidden mb-4">
               <Image
-                src={`${imageUrl}${movie.backdrop_path}`}
+                src={
+                  movie.backdrop_path
+                    ? `${imageUrl}${movie.backdrop_path}`
+                    : "/no-image.jpg"
+                }
                 alt={movie.name}
                 width={800}
                 height={450}
                 className="w-full h-auto object-cover"
               />
             </div>
-
             <p className="text-sm text-neutral-300 text-center mb-4">
               {movie.overview}
             </p>
           </>
         )}
+
         <div className="flex justify-center gap-6 mb-4">
           <button
             onClick={handlePlay}
@@ -116,16 +78,17 @@ export function MovieModal({
           >
             <FaRegCirclePlay size={22} />
           </button>
+
           {isFavorited ? (
             <button
-              onClick={onClickRemoveFavorite}
+              onClick={() => removeFavorite(movie.id)}
               className="rounded-full p-3 hover:scale-105"
             >
               <AiFillLike size={22} />
             </button>
           ) : (
             <button
-              onClick={onClickFavorite}
+              onClick={() => addFavorite(movie)}
               className="rounded-full p-3 hover:scale-105"
             >
               <AiOutlineLike size={22} />
@@ -133,12 +96,15 @@ export function MovieModal({
           )}
         </div>
 
-        {/* YouTube動画表示*/}
         {trailerUrl && (
           <div className="aspect-video w-full overflow-hidden rounded shadow-lg">
             <YouTube
               videoId={trailerUrl}
-              opts={opts}
+              opts={{
+                width: "100%",
+                height: "390",
+                playerVars: { autoplay: 1 },
+              }}
               className="w-full h-full"
             />
           </div>
