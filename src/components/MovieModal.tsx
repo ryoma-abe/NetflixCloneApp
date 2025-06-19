@@ -67,11 +67,12 @@ export function MovieModal({
     });
 
     if (res.ok) {
-      setIsFavorited(true);
+      setIsFavorited(false);
     } else {
       console.error("お気に入り登録に失敗しました");
     }
   };
+
   // モーダルを開いたときにお気に入り済みかをチェック
   useEffect(() => {
     if (!loading) {
