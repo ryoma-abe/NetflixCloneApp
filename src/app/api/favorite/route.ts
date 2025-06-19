@@ -106,3 +106,45 @@ export async function POST(req: NextRequest) {
     );
   }
 }
+// お気に入りから削除
+export async function DELETE(req: NextRequest) {
+  const session = await getServerSession();
+
+  if (!session?.user?.email) {
+    return NextResponse.json({ error: "ログインが必要です" }, { status: 401 });
+  }
+
+  const { movieId } = await req.json();
+  const movieIdStr = String(movieId);
+
+  try {
+    // ユーザー取得
+    const user = await prisma.user.findUnique({
+      where: { email: session.user.email },
+    });
+    if (!user) {
+      return NextResponse.json(
+        { error: "ユーザーが見つかりません" },
+        { status: 404 }
+      );
+    }
+
+    // お気に入りから削除（favoritesとのリレーション解除）
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        favorites: {
+          disconnect: { id: movieIdStr },
+        },
+      },
+    });
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error("お気に入り削除エラー:", error);
+    return NextResponse.json(
+      { error: "エラーが発生しました" },
+      { status: 500 }
+    );
+  }
+}
