@@ -44,10 +44,24 @@ export function MovieModal({
       );
     }
   };
-  // お気に入りボタンを押したときの関数
+  // お気に入り追加ボタンを押したときの関数
   const handleFavorite = async (movieId: string) => {
     const res = await fetch("/api/favorite", {
       method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ movieId }),
+    });
+
+    if (res.ok) {
+      setIsFavorited(true);
+    } else {
+      console.error("お気に入り登録に失敗しました");
+    }
+  };
+  // お気に入り削除ボタンを押したときの関数
+  const handleRemoveFavorite = async (movieId: string) => {
+    const res = await fetch("/api/favorite", {
+      method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ movieId }),
     });
@@ -111,18 +125,21 @@ export function MovieModal({
           >
             <FaRegCirclePlay size={22} />
           </button>
-          <button
-            onClick={() => handleFavorite(movie.id)}
-            className={`rounded-full p-3 hover:scale-105 ${
-              isFavorited ? "bg-red-500 text-white" : "bg-white text-black"
-            }`}
-          >
-            {isFavorited ? (
+          {isFavorited ? (
+            <button
+              onClick={() => handleRemoveFavorite(movie.id)}
+              className="rounded-full p-3 hover:scale-105"
+            >
               <AiFillLike size={22} />
-            ) : (
+            </button>
+          ) : (
+            <button
+              onClick={() => handleFavorite(movie.id)}
+              className="rounded-full p-3 hover:scale-105"
+            >
               <AiOutlineLike size={22} />
-            )}
-          </button>
+            </button>
+          )}
         </div>
 
         {/* YouTube動画表示*/}
