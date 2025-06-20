@@ -5,6 +5,7 @@ import { Providers } from "./providers";
 import { Toaster } from "react-hot-toast";
 import FlashToast from "@/components/FlashToast";
 import Header from "@/components/Header";
+import { Suspense } from "react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,7 +35,9 @@ export default function RootLayout({
         <Providers>
           <Header />
           <Toaster position="top-center" />
-          <FlashToast />
+          <Suspense fallback={null}>
+            <FlashToast />
+          </Suspense>
           {children}
         </Providers>
       </body>
