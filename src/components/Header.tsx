@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
@@ -34,24 +33,20 @@ export default function Header() {
       }`}
     >
       <Link href="/">
-        <Image
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/1920px-Netflix_2015_logo.svg.png"
-          alt="Netflix Logo"
-          width={80}
-          height={30}
-          className="object-contain"
-        />
+        <div className="flex items-center">
+          <div className="text-2xl font-bold text-red-600">STREAMFLIX</div>
+        </div>
       </Link>
 
       <div className="relative">
-        <Image
-          src="https://i.pinimg.com/originals/0d/dc/ca/0ddccae723d85a703b798a5e682c23c1.png"
-          alt="Avatar"
-          width={32}
-          height={32}
-          className="w-8 h-8 cursor-pointer object-cover"
+        <div 
+          className="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-500 transition-colors"
           onClick={() => setShowDropdown((prev) => !prev)}
-        />
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor">
+            <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+          </svg>
+        </div>
         {showDropdown && (
           <div className="absolute right-0 mt-3 w-60 rounded-md bg-black text-white shadow-lg p-4 text-sm space-y-3">
             <LoginButton />
