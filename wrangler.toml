@@ -1,13 +1,2 @@
 name = "streamflix"
 pages_build_output_dir = ".next"
-
-[build]
-command = "npm run build"
-
-[env.production]
-# Cloudflare Pages environment variables can be set here
-
-# Ignore cache files during deployment
-[[upload_rules]]
-type = "exclude"
-globs = [".next/cache/**/*"]
