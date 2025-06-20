@@ -8,6 +8,7 @@ import { requests } from "@/lib/request";
 import axios from "@/lib/axios";
 import YouTube from "react-youtube";
 import { useFavorites } from "@/hooks/useFavorites";
+import { useSession } from "next-auth/react";
 
 type MovieModalProps = {
   movie: Movie;
@@ -18,8 +19,9 @@ type MovieModalProps = {
 export function MovieModal({ movie, imageUrl, onClose }: MovieModalProps) {
   const [trailerUrl, setTrailerUrl] = useState<string | null>("");
   const { favorites, addFavorite, removeFavorite } = useFavorites();
-
   const isFavorited = favorites.some((fav) => fav.id === movie.id);
+
+  const { data: session } = useSession();
 
   const handlePlay = async () => {
     if (trailerUrl) {
@@ -78,22 +80,22 @@ export function MovieModal({ movie, imageUrl, onClose }: MovieModalProps) {
           >
             <FaRegCirclePlay size={22} />
           </button>
-
-          {isFavorited ? (
-            <button
-              onClick={() => removeFavorite(movie.id)}
-              className="rounded-full p-3 hover:scale-105"
-            >
-              <AiFillLike size={22} />
-            </button>
-          ) : (
-            <button
-              onClick={() => addFavorite(movie)}
-              className="rounded-full p-3 hover:scale-105"
-            >
-              <AiOutlineLike size={22} />
-            </button>
-          )}
+          {session &&
+            (isFavorited ? (
+              <button
+                onClick={() => removeFavorite(movie.id)}
+                className="rounded-full p-3 hover:scale-105"
+              >
+                <AiFillLike size={22} />
+              </button>
+            ) : (
+              <button
+                onClick={() => addFavorite(movie)}
+                className="rounded-full p-3 hover:scale-105"
+              >
+                <AiOutlineLike size={22} />
+              </button>
+            ))}
         </div>
 
         {trailerUrl && (

@@ -7,7 +7,7 @@ export default function Home() {
     <main>
       <Banner />
       <Row
-        title="Netflix Originals"
+        title="Originals"
         fetchUrl={requests.fetchNetflixOriginals}
         isLargeRow={true}
       />

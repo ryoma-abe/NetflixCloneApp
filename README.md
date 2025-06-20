@@ -1,10 +1,10 @@
-# Netflix クローンアプリ
+# Streamflix - 映画ストリーミングアプリ
 
-Next.js 15を使用して構築された、映画閲覧、ユーザー認証、お気に入り管理機能を備えたNetflix風のモダンなWebアプリケーションです。
+Next.js 15を使用して構築された、映画閲覧、ユーザー認証、お気に入り管理機能を備えたモダンな映画ストリーミングWebアプリケーションです。
 
 ## 🚀 主な機能
 
-- **映画ブラウジング**: Netflixオリジナル、トレンド、高評価、アクション、ニュース、キッズ、ロマンス、ドキュメンタリーなど、複数のカテゴリーから映画を閲覧
+- **映画ブラウジング**: オリジナル、トレンド、高評価、アクション、ニュース、キッズ、ロマンス、ドキュメンタリーなど、複数のカテゴリーから映画を閲覧
 - **ユーザー認証**: NextAuth.jsを使用したGoogle OAuthによる安全な認証
 - **お気に入りシステム**: 個人のお気に入りリストに映画を追加・削除
 - **映画詳細表示**: 映画の概要、ジャンル、上映時間などの詳細情報を表示
@@ -188,15 +188,78 @@ netflixcloneapp/
 
 このアプリケーションはNext.jsをサポートするプラットフォームにデプロイできます：
 
-1. **Vercel**（推奨）
-   - GitHubにプッシュ
-   - Vercelでプロジェクトをインポート
-   - 環境変数を設定
-   - デプロイ
+### Cloudflare Pages
 
-2. **その他のプラットフォーム**
-   - アプリケーションのビルド: `npm run build`
-   - プロダクションサーバーの起動: `npm start`
+#### 前提条件
+- SQLiteは使用できないため、別のデータベースサービス（Supabase、Neon、PlanetScale等）への移行が必要
+- Cloudflareアカウント
+- GitHubリポジトリ
+
+#### デプロイ手順
+
+1. **データベースの準備**
+   - Cloudflare PagesではSQLiteが使用できないため、外部データベースサービスを使用
+   - 推奨: Supabase（PostgreSQL）、Neon（PostgreSQL）、PlanetScale（MySQL）
+   - 選択したサービスでデータベースを作成し、接続URLを取得
+
+2. **Prismaスキーマの更新**
+   ```prisma
+   // prisma/schema.prisma
+   datasource db {
+     provider = "postgresql" // または "mysql"
+     url      = env("DATABASE_URL")
+   }
+   ```
+
+3. **ビルドコマンドの設定**
+   ```json
+   // package.json に追加
+   "scripts": {
+     "postinstall": "prisma generate",
+     "build": "prisma generate && next build"
+   }
+   ```
+
+4. **Cloudflare Pagesでのセットアップ**
+   - Cloudflareダッシュボードにログイン
+   - 「Pages」セクションに移動
+   - 「プロジェクトを作成」をクリック
+   - GitHubアカウントを接続し、リポジトリを選択
+
+5. **ビルド設定**
+   - フレームワークプリセット: `Next.js`
+   - ビルドコマンド: `npm run build`
+   - ビルド出力ディレクトリ: `.next`
+
+6. **環境変数の設定**
+   Cloudflare Pagesダッシュボードで以下の環境変数を追加：
+   ```
+   DATABASE_URL=your_database_url
+   NEXT_PUBLIC_TMDB_API_KEY=your_tmdb_api_key
+   NEXTAUTH_URL=https://your-app.pages.dev
+   NEXTAUTH_SECRET=your_nextauth_secret
+   GOOGLE_CLIENT_ID=your_google_client_id
+   GOOGLE_CLIENT_SECRET=your_google_client_secret
+   ```
+
+7. **デプロイ**
+   - 「保存してデプロイ」をクリック
+   - 初回ビルドが完了するまで待機
+
+#### 注意事項
+- Cloudflare Pagesは静的サイトホスティングサービスのため、一部のNext.js機能に制限があります
+- Edge Runtimeの使用を推奨
+- ISR（Incremental Static Regeneration）は制限付きサポート
+
+### Vercel（推奨）
+1. GitHubにプッシュ
+2. Vercelでプロジェクトをインポート
+3. 環境変数を設定
+4. デプロイ
+
+### その他のプラットフォーム
+- アプリケーションのビルド: `npm run build`
+- プロダクションサーバーの起動: `npm start`
 
 ## 🔒 セキュリティ考慮事項
 
@@ -213,9 +276,23 @@ netflixcloneapp/
 4. ブランチにプッシュ（`git push origin feature/AmazingFeature`）
 5. プルリクエストを開く
 
-## 📝 ライセンス
+## 📝 ライセンスとクレジット
 
-このプロジェクトは教育目的のものです。NetflixとTMDBの著作権を尊重してください。
+### ライセンス
+このプロジェクトは教育目的のものです。
+
+### データソース
+このアプリケーションは、映画データの取得に[The Movie Database (TMDB) API](https://www.themoviedb.org/)を使用しています。
+
+#### TMDB利用規約
+- すべての映画データ、画像、情報はTMDB APIから提供されています
+- TMDB APIの利用には[利用規約](https://www.themoviedb.org/terms-of-use)への同意が必要です
+- TMDBのロゴと帰属表示は必須です
+
+#### 免責事項
+- このアプリケーションはTMDBによって承認されておらず、TMDBと提携していません
+- 映画の著作権は各権利保有者に帰属します
+- このプロジェクトは非営利の教育目的でのみ使用してください
 
 ## 🙏 謝辞
 
