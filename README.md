@@ -4,7 +4,7 @@
 
 ## 🎬 デモ
 
-[Live Demo](#) | [ソースコード](https://github.com/yourusername/netflixcloneapp)
+[Live Demo](#) | [ソースコード](https://github.com/yourusername/streamflix)
 
 ## 📸 スクリーンショット
 
@@ -61,7 +61,7 @@ src/
 
 ```bash
 # リポジトリのクローン
-git clone https://github.com/yourusername/netflixcloneapp.git
+git clone https://github.com/yourusername/streamflix.git
 
 # 依存関係のインストール
 npm install
