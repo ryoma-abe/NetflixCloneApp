@@ -22,7 +22,7 @@ export default function Row({ fetchUrl, isLargeRow, title }: RowProps) {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
 
-  const { favorites, loading } = useFavorites();
+  useFavorites();
 
   useEffect(() => {
     async function fetchData() {
@@ -63,8 +63,6 @@ export default function Row({ fetchUrl, isLargeRow, title }: RowProps) {
           onClose={onClose}
           movie={selectedMovie}
           imageUrl={imageUrl}
-          favorites={favorites}
-          loading={loading}
         />
       )}
     </div>

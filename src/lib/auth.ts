@@ -1,6 +1,6 @@
 // サーバー側でログイン情報の取得
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/lib/authOptions";
 
 export const getCurrentUser = async () => {
   const session = await getServerSession(authOptions);
